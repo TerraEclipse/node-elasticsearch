@@ -31,10 +31,16 @@ function createClient (options) {
 		delete options.index;
 	}
 
-	var
-		req = request.initialize(options.server),
-		client = core(options, req);
+	var	req, client;
 
+	if (options.request) {
+		req = options.request.initialize(options.server);
+	}
+	else {
+		req = request.initialize(options.server);
+	}
+
+	client = core(options, req);
 	client.cluster = cluster(options, req);
 	client.indices = indices(options, req);
 
